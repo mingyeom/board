@@ -15,6 +15,7 @@ public interface UploadServiceInf {
 	 * @param boardVo
 	 * @return Method 설명 : 파일 추가
 	 */
+	
 	int uploadFile(UploadVo uploadVo);
 	
 	/**
