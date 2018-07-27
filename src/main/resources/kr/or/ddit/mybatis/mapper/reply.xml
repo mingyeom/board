@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+
+	<!-- 아이디로 댓글 상세조회 -->
+	<select id="getReply_id" parameterType="replyVo" resultType="replyVo">
+		select *
+		from reply where post_id=#{post_id} order by comdate desc
+	</select>
+
+	<!-- 전체 댓글 정보 조회 -->
+	<select id="selectAllReply" resultType="replyVo">
+		select * from reply order by comdate desc
+	</select>
+	
+	<!-- 댓글 생성 -->
+	<insert id="createReply" parameterType="replyVo">
+		insert into reply(com_id, comdate, context, post_id, std_id, isyn)
+			values(reply_seq.nextval, sysdate, #{context}, #{post_id}, #{std_id}, 0)
+	</insert>
+	
+	<!-- 0이 삭제 안된 게시물 -->
+	<update id="getCheckY" parameterType="int">
+		update reply set isyn=1
+			where com_id=#{com_id}
+	</update>
+
+</mapper>

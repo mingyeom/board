@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<!-- 게시판 아이디로 상세조회 -->
+	<select id="getBoardboard_id" parameterType="int" resultType="boardVo">
+		SELECT *
+		FROM BOARD WHERE board_id = #{board_id}
+	</select>
+
+	<!-- 전체 게시판 정보 조회 -->
+	<select id="selectAllBoard" resultType="boardVo">
+		select * from BOARD order by board_id
+	</select>
+	
+	<!-- 게시판 정보 페이징 조회 -->
+	<select id="getBoardPageList" resultType="boardVo" parameterType="map">
+	SELECT *
+		FROM
+			(SELECT a.*, ROWNUM rn
+				FROM
+					(SELECT *
+						FROM BOARD
+					ORDER BY BOARD_ID)a)
+		WHERE rn BETWEEN (#{page}-1)*#{pageSize}+1 AND #{page}*#{pageSize}
+	</select>
+	
+	<!-- 게시판 전체 건수 -->
+	<select id="getBoardTotCnt" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<!-- 게시판 생성 -->
+	<insert id="createBoard" parameterType="boardVo">
+		insert into board(board_id, board_name, use_yn)
+			values(board_seq.nextval, #{board_name}, #{use_yn})
+	</insert>
+	
+	<!-- 게시판 사용여부 수정 -->
+	<update id="updateBoard" parameterType="boardVo">
+		update board set use_yn=#{use_yn}, board_name=#{board_name}
+			where board_id=#{board_id}
+	</update>
+	
+	<!-- Y체크 된것만 가져오기 -->
+	<select id="checkYList" resultType="boardVo">
+		select * from board
+		where use_yn = 0 order by board_id
+	</select>
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="upload">
+
+	<!-- 파일 추가 -->
+	<insert id="uploadFile" parameterType="uploadVo">
+		insert into upload(chum_id, post_id, pic, picpath, picname)
+		values(upload_seq.nextval, #{post_id}, #{pic}, #{picpath}, #{picname})
+	</insert>
+
+	<!-- 전체 파일 정보 조회 -->
+	<select id="selectAllFile" resultType="uploadVo">
+		select * from upload
+	</select>
+
+	<!-- 첨부파일 업데이트 -->
+	<update id="fileUpdate" parameterType="uploadVo">
+		UPDATE upload SET
+			pic=#{pic},
+			picpath=#{picpath},
+			picname=#{picname},
+		WHERE post_id=#{post_id}
+	</update>
+
+	<!-- 파일 정보 조회 -->
+	<select id="selectfile_postId" resultType="uploadVo"
+		parameterType="uploadVo">
+		select * from upload where post_id=#{post_id}
+	</select>
+	
+</mapper>
