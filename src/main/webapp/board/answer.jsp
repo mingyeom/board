@@ -28,6 +28,7 @@
 <script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
 
 <script src="/SE2/js/HuskyEZCreator.js"></script>
+
 <script type="text/javascript">
 	var oEditors = []; // 개발되어 있는 소스에 맞추느라, 전역변수로 사용하였지만, 지역변수로 사용해도 전혀 무관 함.
 
@@ -75,7 +76,6 @@
 	}
 </script>
 
-
 </head>
 <body>
 
@@ -93,11 +93,12 @@
 					<div class="col-sm-8 blog-main">
 						<h2 class="sub-header"></h2>
 
-						<form id="frm" class="form-horizontal" role="form" method="post">
+						<form id="frm" class="form-horizontal" role="form" method="post"
+							enctype="multipart/form-data">
 
 							<input type="hidden" id="id" name="id"> <input
 								type="hidden" id="board_id" name="board_id">
-								
+
 							<div class="form-group">
 								<label for="id" class="col-sm-2 control-label">제목</label>
 								<div class="col-sm-10">
@@ -105,7 +106,7 @@
 										placeholder="제목">
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="id" class="col-sm-2 control-label">글내용</label>
 								<div class="col-sm-10">
@@ -114,14 +115,48 @@
 								</div>
 							</div>
 
+							<!-- 							<div class="form-group"> -->
+							<!-- 								<label for="id" class="col-sm-2 control-label">첨부파일</label> -->
+							<!-- 								<div class="col-sm-10"> -->
+							<!-- 									<input type="file" class="form-control" id="chum" name="chum"> -->
+							<!-- 									<input type="button" class="btn btn-default" id="addBtn" -->
+							<!-- 										name="addBtn" value="추가"> -->
+							<!-- 								</div> -->
+							<!-- 							</div> -->
+
 							<div class="form-group">
-								<label for="id" class="col-sm-2 control-label">첨부파일</label>
+								<label for="name" class="col-sm-2 control-label">첨부파일</label>
+								<div id="file-btn-list" class="col-sm-10">
+									<input type="file" class="btn btn-default" multiple="chum"
+										id="chum" name="chum">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="id" class="col-sm-2 control-label"></label>
 								<div class="col-sm-10">
-									<input type="file" class="form-control" id="chum" name="chum">
 									<input type="button" class="btn btn-default" id="addBtn"
 										name="addBtn" value="추가">
 								</div>
 							</div>
+
+							<script type="text/javascript">
+								$(function() {
+									var addFileTag = "<input type=\"file\" class=\"form-control\" style=\"margin-top:10px;\" multiple=\"chum\" id=\"chum\" name=\"chum\">"; // file tag								
+									var fileListSize = $("#file-btn-list").length; // list size
+
+									$("#addBtn").click(
+											function() {
+												if (fileListSize < 5) {
+													$("#file-btn-list").append(
+															addFileTag);
+													fileListSize++;
+												} else {
+													alert("파일은 5개까지만 가능합니다.");
+												}
+											});
+								});
+							</script>
 
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
